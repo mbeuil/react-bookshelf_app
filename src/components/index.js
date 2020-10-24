@@ -1,7 +1,7 @@
 import '@reach/dialog/styles.css';
 import {useState} from 'react';
 import {Dialog} from '@reach/dialog';
-import {Logo} from '../components/logo-component/logo';
+import {Logo} from 'components/logo-component/logo';
 
 function LoginForm({onSubmit, buttonText, close}) {
   const [infos, setInfos] = useState({

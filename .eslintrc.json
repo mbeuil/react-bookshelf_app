@@ -5,6 +5,13 @@
     "kentcdodds/jest",
     "kentcdodds/webpack"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
   "rules": {
     // your overrides
 
