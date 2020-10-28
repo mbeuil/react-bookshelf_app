@@ -3,6 +3,7 @@ import '@reach/dialog/styles.css';
 import {useState} from 'react';
 import LoginButton from 'components/LoginButton';
 import {Logo} from 'components/Logo';
+import BookSearch from 'components/BookSearch';
 import * as S from './styles';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <LoginButton type="Login" method={modal} />
         <LoginButton type="Register" method={modal} />
       </S.ButtosnContainer>
+      <BookSearch />
     </S.AppContainer>
   );
 }

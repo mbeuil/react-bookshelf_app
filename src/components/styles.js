@@ -18,7 +18,7 @@ export const AppContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  justifyContent: 'center',
+  marginTop: '100px',
   width: '100%',
   height: '100vh',
 });
