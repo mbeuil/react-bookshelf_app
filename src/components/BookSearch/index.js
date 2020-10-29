@@ -1,88 +1,18 @@
 import '@reach/tooltip/styles.css';
 
-import {
-  useState,
-  useEffect,
-  useReducer,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-} from 'react';
+import {useState, useEffect} from 'react';
 import Tooltip from '@reach/tooltip';
 // import BookItem from 'components/BookItem';
 import {FaSearch, FaTimes} from 'react-icons/fa';
 import {client} from 'utils/api-client';
+import {useAsync, fetchMovie} from 'custom-hooks/useAsync';
 
 import * as G from 'styles/common-styles';
 import * as C from 'styles/colors';
 import * as S from './styles';
 
-const asyncReducer = (state, action) => {
-  switch (action.type) {
-    case 'START': {
-      return {...state, status: 'pending'};
-    }
-    case 'SUCCESS': {
-      return {...state, status: 'resolved', data: action.promiseData};
-    }
-    case 'ERROR': {
-      return {...state, status: 'rejected', error: action.promiseError};
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
-  }
-};
-
-function useSafeDispatch(dispatch) {
-  const mountedRef = useRef(false);
-
-  useLayoutEffect(() => {
-    mountedRef.current = true;
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
-
-  return useCallback(
-    (...args) => {
-      if (mountedRef.current) {
-        dispatch(...args);
-      }
-    },
-    [dispatch],
-  );
-}
-
-function useAsync() {
-  const [{status, data, error}, unsafeDispatch] = useReducer(asyncReducer, {
-    status: 'idle',
-    data: null,
-    error: null,
-  });
-
-  const dispatch = useSafeDispatch(unsafeDispatch);
-
-  const run = useCallback(
-    promise => {
-      if (!promise || !promise.then) {
-        throw new Error(
-          `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`,
-        );
-      }
-      dispatch({type: 'START'});
-      promise
-        .then(promiseData => dispatch({type: 'SUCCESS', promiseData}))
-        .catch(promiseError => dispatch({type: 'ERROR', promiseError}));
-    },
-    [dispatch],
-  );
-
-  return {status, data, error, run};
-}
-
 function BookSearch() {
-  const {status, data, error, run} = useAsync();
+  const {status, data, error} = useAsync();
   const [query, setQuery] = useState('');
   const [isQueried, setIsQueried] = useState(false);
   console.log(status, data, error);
@@ -91,8 +21,8 @@ function BookSearch() {
     if (!isQueried) {
       return;
     }
-    run(client(`${encodeURIComponent(query)}`));
-  }, [isQueried, run, query]);
+    fetchMovie(client(`${encodeURIComponent(query)}`));
+  }, [isQueried, query]);
 
   function handleSearchSubmit(event) {
     event.preventDefault();
