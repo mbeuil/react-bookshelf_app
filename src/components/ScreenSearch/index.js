@@ -2,7 +2,6 @@ import '@reach/tooltip/styles.css';
 
 import {useState, useEffect} from 'react';
 import Tooltip from '@reach/tooltip';
-// import BookItem from 'components/BookItem';
 import {FaSearch, FaTimes} from 'react-icons/fa';
 import {client} from 'utils/api-client';
 import {useAsync, fetchMovie} from 'custom-hooks/useAsync';
@@ -11,7 +10,7 @@ import * as G from 'styles/common-styles';
 import * as C from 'styles/colors';
 import * as S from './styles';
 
-function BookSearch() {
+function ScreenSearch() {
   const {status, data, error} = useAsync();
   const [query, setQuery] = useState('');
   const [isQueried, setIsQueried] = useState(false);
@@ -40,11 +39,11 @@ function BookSearch() {
     >
       <form onSubmit={handleSearchSubmit}>
         <G.Input
-          placeholder="Search books..."
+          placeholder="Search Screens..."
           id="search"
           style={{width: '100%'}}
         />
-        <Tooltip label="Search Books">
+        <Tooltip label="Search Screens">
           <label htmlFor="search">
             <button
               type="submit"
@@ -84,7 +83,7 @@ function BookSearch() {
 
         {status === 'resolved' ? (
           data?.length ? (
-            <S.BookListUL>
+            <S.ScreenListUL>
               {data.map(item => (
                 <li key={item.show.id}>
                   <div style={{height: '30px', border: '1px solid gray'}}>
@@ -92,9 +91,9 @@ function BookSearch() {
                   </div>
                 </li>
               ))}
-            </S.BookListUL>
+            </S.ScreenListUL>
           ) : (
-            <p>No books found. Try another search.</p>
+            <p>No movies or series found. Try another search.</p>
           )
         ) : null}
       </div>
@@ -102,4 +101,4 @@ function BookSearch() {
   );
 }
 
-export default BookSearch;
+export default ScreenSearch;

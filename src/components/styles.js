@@ -18,9 +18,9 @@ export const AppContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: '100px',
+  marginTop: '10vh',
   width: '100%',
-  height: '100vh',
+  height: '90vh',
 });
 
 export const ButtosnContainer = styled.div({

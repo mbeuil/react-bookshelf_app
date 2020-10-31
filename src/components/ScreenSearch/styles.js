@@ -1,6 +1,6 @@
 import styled from '@emotion/styled/macro';
 
-export const BookListUL = styled.ul({
+export const ScreenListUL = styled.ul({
   listStyle: 'none',
   padding: '20px 10px',
   display: 'grid',
