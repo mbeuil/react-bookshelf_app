@@ -45,7 +45,7 @@ function useAsync() {
   });
 
   const dispatch = useSafeDispatch(unsafeDispatch);
-  console.log('here', state);
+
   const run = useCallback(
     promise => {
       if (!promise || !promise.then) {
