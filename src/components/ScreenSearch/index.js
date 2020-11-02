@@ -4,14 +4,14 @@ import {useState, useEffect} from 'react';
 import Tooltip from '@reach/tooltip';
 import {FaSearch, FaTimes} from 'react-icons/fa';
 import {client} from 'utils/api-client';
-import {useAsync, fetchMovie} from 'custom-hooks/useAsync';
+import useAsync from 'custom-hooks/useAsync';
 
 import * as G from 'styles/common-styles';
 import * as C from 'styles/colors';
 import * as S from './styles';
 
 function ScreenSearch() {
-  const {status, data, error} = useAsync();
+  const {status, data, error, run} = useAsync();
   const [query, setQuery] = useState('');
   const [isQueried, setIsQueried] = useState(false);
   console.log(status, data, error);
@@ -20,8 +20,8 @@ function ScreenSearch() {
     if (!isQueried) {
       return;
     }
-    fetchMovie(client(`${encodeURIComponent(query)}`));
-  }, [isQueried, query]);
+    run(client(`${encodeURIComponent(query)}`));
+  }, [isQueried, query, run]);
 
   function handleSearchSubmit(event) {
     event.preventDefault();

@@ -6,10 +6,10 @@ const asyncReducer = (state, action) => {
       return {...state, status: 'pending'};
     }
     case 'SUCCESS': {
-      return {...state, status: 'resolved', data: action.promiseData};
+      return {...state, status: 'resolved', data: action.data};
     }
     case 'ERROR': {
-      return {...state, status: 'rejected', error: action.promiseError};
+      return {...state, status: 'rejected', error: action.error};
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
@@ -45,25 +45,29 @@ function useAsync() {
   });
 
   const dispatch = useSafeDispatch(unsafeDispatch);
+  console.log('here', state);
+  const run = useCallback(
+    promise => {
+      if (!promise || !promise.then) {
+        throw new Error(
+          `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`,
+        );
+      }
+      dispatch({type: 'START'});
+      return promise
+        .then(data => {
+          dispatch({type: 'SUCCESS', data});
+          return data;
+        })
+        .catch(error => {
+          dispatch({type: 'ERROR', error});
+          return Promise.reject(error);
+        });
+    },
+    [dispatch],
+  );
 
-  return [state, dispatch];
+  return {...state, run};
 }
 
-async function fetchMovie(promise, dispatch) {
-  if (!promise || !promise.then) {
-    throw new Error(
-      `The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?`,
-    );
-  }
-  dispatch({type: 'START'});
-  try {
-    const data = await promise;
-    dispatch({type: 'SUCCESS', data});
-    return data;
-  } catch (error) {
-    dispatch({type: 'ERROR', error});
-    return Promise.reject(error);
-  }
-}
-
-export {useAsync, fetchMovie};
+export default useAsync;
