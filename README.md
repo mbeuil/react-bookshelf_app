@@ -1,5 +1,7 @@
 # Screen react app
 
+Portfolio app build to context and queries as state management library, emotions, advance code pattern, netlify and testing.
+
 ## RoadMap
 
 - [x] Render App.
